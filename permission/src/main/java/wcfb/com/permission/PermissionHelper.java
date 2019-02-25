@@ -20,7 +20,8 @@ public class PermissionHelper {
 
     public void checkPermission(final Activity activity, final AskPermissionCallBack callBack){
         this.callBack = callBack;
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             //没有权限，申请权限
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 //以前被拒绝授予权限，而且不再提示
