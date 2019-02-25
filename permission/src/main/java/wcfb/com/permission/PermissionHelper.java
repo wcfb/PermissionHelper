@@ -18,8 +18,39 @@ import android.support.v7.app.AlertDialog;
 public class PermissionHelper {
     private AskPermissionCallBack callBack = null;
 
-    public void checkPermission(final Activity activity, final AskPermissionCallBack callBack){
+    public void checkPermission(final Activity activity,final String permissionName, final AskPermissionCallBack callBack){
         this.callBack = callBack;
+        switch (permissionName){
+            case Manifest.permission.READ_EXTERNAL_STORAGE:
+                ask_READ_EXTERNAL_STORAGE(activity);
+                break;
+        }
+
+    }
+
+    public void checkPermission(final Activity activity,final String[] permissionName, final AskPermissionCallBack callBack){
+        this.callBack = callBack;
+        for (int i = 0; i < permissionName.length; i++) {
+            checkPermission(activity,permissionName[i],callBack);
+        }
+    }
+    public interface AskPermissionCallBack{
+        void onSuccess();
+        void onFailed();
+    }
+
+    /**
+     * 在Activity的onRequestPermissionsResult中进行回调
+     */
+    public void registActivityResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        int i = 0;
+        for(String s:permissions){
+            i++;
+        }
+
+    }
+
+    public void ask_READ_EXTERNAL_STORAGE(final Activity activity){
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //没有权限，申请权限
@@ -52,21 +83,5 @@ public class PermissionHelper {
             if(callBack != null)
                 callBack.onSuccess();
         }
-    }
-
-    public interface AskPermissionCallBack{
-        void onSuccess();
-        void onFailed();
-    }
-
-    /**
-     * 在Activity的onRequestPermissionsResult中进行回调
-     */
-    public void registActivityResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-        int i = 0;
-        for(String s:permissions){
-            i++;
-        }
-
     }
 }
